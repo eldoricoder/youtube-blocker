@@ -1,8 +1,17 @@
 @echo off
-net session >nul 2>&1 || (powershell -Command "Start-Process '%~0' -Verb RunAs" & exit /b)
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    powershell -Command "Start-Process '%~f0' -Verb RunAs"
+    exit /b
+)
 
-set H=%SystemRoot%\System32\drivers\etc\hosts
+set HOSTS=%SystemRoot%\System32\drivers\etc\hosts
 
-powershell -Command "(Get-Content '%H%') | Where-Object { $_ -notmatch 'youtube|instagram|tiktok|reddit|yandex|poki|crazygames|gamedistribution|armorgames|kongregate|miniplay|silvergames|io8games' } | Set-Content '%H%'"
+:: PowerShell yordamida barcha kiritilgan domenlarni tozalash
+powershell -Command "(Get-Content '%HOSTS%') | Where-Object { $_ -notmatch 'youtube|youtu\.be|instagram|tiktok|reddit|poki|crazygames|playhop|yandex|yagames|now\.gg|pogo|friv|kizi|armorgames|kongregate|roblox' } | Set-Content '%HOSTS%'"
 
-ipconfig /flushdns >nul
+ipconfig /flushdns
+netsh interface ip delete arpcache
+
+echo Successfully unblocked! All sites are accessible again.
+pause
