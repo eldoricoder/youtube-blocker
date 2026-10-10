@@ -1,4 +1,5 @@
 @echo off
+:: Admin huquqini avtomatik talab qilish
 net session >nul 2>&1
 if %errorlevel% neq 0 (
     powershell -Command "Start-Process '%~f0' -Verb RunAs"
@@ -7,40 +8,25 @@ if %errorlevel% neq 0 (
 
 set HOSTS=%SystemRoot%\System32\drivers\etc\hosts
 
-:: Poki (IPv4 + IPv6)
-echo 127.0.0.1 poki.com >> %HOSTS%
-echo ::1 poki.com >> %HOSTS%
-echo 127.0.0.1 www.poki.com >> %HOSTS%
-echo ::1 www.poki.com >> %HOSTS%
-echo 127.0.0.1 poki-gdn.com >> %HOSTS%
-echo ::1 poki-gdn.com >> %HOSTS%
-echo 127.0.0.1 img.poki.com >> %HOSTS%
-echo ::1 img.poki.com >> %HOSTS%
+echo # --- SCHOOL BLOCKLIST START --- >> %HOSTS%
 
-:: Yandex Games (IPv4 + IPv6)
-echo 127.0.0.1 yandex.ru >> %HOSTS%
-echo ::1 yandex.ru >> %HOSTS%
-echo 127.0.0.1 yandex.com >> %HOSTS%
-echo ::1 yandex.com >> %HOSTS%
-echo 127.0.0.1 yagames.com >> %HOSTS%
-echo ::1 yagames.com >> %HOSTS%
-echo 127.0.0.1 games.yandex.ru >> %HOSTS%
-echo ::1 games.yandex.ru >> %HOSTS%
+:: YouTube & Social Media
+for %%d in (youtube.com www.youtube.com youtu.be instagram.com www.instagram.com tiktok.com www.tiktok.com reddit.com www.reddit.com) do (
+    echo 127.0.0.1 %%d >> %HOSTS%
+    echo ::1 %%d >> %HOSTS%
+)
 
-:: CrazyGames & Boshqalar
-echo 127.0.0.1 crazygames.com >> %HOSTS%
-echo ::1 crazygames.com >> %HOSTS%
-echo 127.0.0.1 youtube.com >> %HOSTS%
-echo ::1 youtube.com >> %HOSTS%
-echo 127.0.0.1 instagram.com >> %HOSTS%
-echo ::1 instagram.com >> %HOSTS%
-echo 127.0.0.1 tiktok.com >> %HOSTS%
-echo ::1 tiktok.com >> %HOSTS%
-echo 127.0.0.1 reddit.com >> %HOSTS%
-echo ::1 reddit.com >> %HOSTS%
+:: Game Platforms (Poki, CrazyGames, Playhop, Yandex, Now.gg, Pogo, Friv, Kizi, Armor, Kongregate, Roblox)
+for %%d in (poki.com www.poki.com poki-gdn.com img.poki.com crazygames.com www.crazygames.com playhop.com www.playhop.com yandex.ru yandex.com yagames.com games.yandex.ru now.gg www.now.gg pogo.com www.pogo.com friv.com www.friv.com kizi.com www.kizi.com armorgames.com kongregate.com roblox.com www.roblox.com) do (
+    echo 127.0.0.1 %%d >> %HOSTS%
+    echo ::1 %%d >> %HOSTS%
+)
 
+echo # --- SCHOOL BLOCKLIST END --- >> %HOSTS%
+
+:: DNS keshini tozalash
 ipconfig /flushdns
 netsh interface ip delete arpcache
 
-echo Blocked successfully with IPv4 and IPv6!
+echo All game & social platforms blocked successfully (IPv4 + IPv6)!
 pause
