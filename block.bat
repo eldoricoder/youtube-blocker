@@ -1,39 +1,44 @@
 @echo off
-net session >nul 2>&1 || (powershell -Command "Start-Process '%~0' -Verb RunAs" & exit /b)
+:: Admin huquqini tekshirish va so'rash
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    powershell -Command "Start-Process '%~f0' -Verb RunAs"
+    exit /b
+)
 
-set H=%SystemRoot%\System32\drivers\etc\hosts
+set HOSTS=%SystemRoot%\System32\drivers\etc\hosts
 
-:: YOUTUBE / SHORTS / INSTAGRAM / REELS / TIKTOK / REDDIT
-echo 127.0.0.1 youtube.com >> "%H%"
-echo 127.0.0.1 www.youtube.com >> "%H%"
-echo 127.0.0.1 m.youtube.com >> "%H%"
-echo 127.0.0.1 youtubei.googleapis.com >> "%H%"
-echo 127.0.0.1 instagram.com >> "%H%"
-echo 127.0.0.1 www.instagram.com >> "%H%"
-echo 127.0.0.1 tiktok.com >> "%H%"
-echo 127.0.0.1 www.tiktok.com >> "%H%"
-echo 127.0.0.1 reddit.com >> "%H%"
-echo 127.0.0.1 www.reddit.com >> "%H%"
+:: Yandex Games va uning barcha CDN/Game domenlarini bloklash
+echo 127.0.0.1 yandex.ru >> %HOSTS%
+echo 127.0.0.1 yandex.com >> %HOSTS%
+echo 127.0.0.1 yandex.uz >> %HOSTS%
+echo 127.0.0.1 yandex.by >> %HOSTS%
+echo 127.0.0.1 yandex.kz >> %HOSTS%
+echo 127.0.0.1 yandex.net >> %HOSTS%
+echo 127.0.0.1 yagames.com >> %HOSTS%
+echo 127.0.0.1 yandex.com/games >> %HOSTS%
+echo 127.0.0.1 yandex.ru/games >> %HOSTS%
+echo 127.0.0.1 games.yandex.ru >> %HOSTS%
+echo 127.0.0.1 games.yandex.com >> %HOSTS%
+echo 127.0.0.1 app-games.yandex.net >> %HOSTS%
+echo 127.0.0.1 storage.yandexcloud.net >> %HOSTS%
 
-:: YANDEX GAMES VA BROWSER O'YIN SAYTLARI
-echo 127.0.0.1 games.yandex.ru >> "%H%"
-echo 127.0.0.1 games.yandex.com >> "%H%"
-echo 127.0.0.1 yandex.ru/games >> "%H%"
-echo 127.0.0.1 poki.com >> "%H%"
-echo 127.0.0.1 www.poki.com >> "%H%"
-echo 127.0.0.1 crazygames.com >> "%H%"
-echo 127.0.0.1 www.crazygames.com >> "%H%"
-echo 127.0.0.1 gamedistribution.com >> "%H%"
-echo 127.0.0.1 www.gamedistribution.com >> "%H%"
-echo 127.0.0.1 armorgames.com >> "%H%"
-echo 127.0.0.1 www.armorgames.com >> "%H%"
-echo 127.0.0.1 kongregate.com >> "%H%"
-echo 127.0.0.1 www.kongregate.com >> "%H%"
-echo 127.0.0.1 miniplay.com >> "%H%"
-echo 127.0.0.1 www.miniplay.com >> "%H%"
-echo 127.0.0.1 silvergames.com >> "%H%"
-echo 127.0.0.1 www.silvergames.com >> "%H%"
-echo 127.0.0.1 io8games.com >> "%H%"
-echo 127.0.0.1 www.io8games.com >> "%H%"
+:: Poki, CrazyGames va boshqa mashhur manbalar
+echo 127.0.0.1 poki.com >> %HOSTS%
+echo 127.0.0.1 poki.ru >> %HOSTS%
+echo 127.0.0.1 crazygames.com >> %HOSTS%
+echo 127.0.0.1 youtube.com >> %HOSTS%
+echo 127.0.0.1 www.youtube.com >> %HOSTS%
+echo 127.0.0.1 instagram.com >> %HOSTS%
+echo 127.0.0.1 www.instagram.com >> %HOSTS%
+echo 127.0.0.1 tiktok.com >> %HOSTS%
+echo 127.0.0.1 www.tiktok.com >> %HOSTS%
+echo 127.0.0.1 reddit.com >> %HOSTS%
+echo 127.0.0.1 www.reddit.com >> %HOSTS%
 
-ipconfig /flushdns >nul
+:: DNS keshni tozalash va brauzer ulanishlarini uzish
+ipconfig /flushdns
+netsh interface ip delete arpcache
+
+echo Blocked successfully!
+pause
