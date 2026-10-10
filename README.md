@@ -1,4 +1,4 @@
-# youtube-blocker
+# browser-game-blocker
 If you want to block game sites and doomscroll platforms, use `block.bat`. If you want to unblock them, use `unblock.bat`.
 
 ## How to use:
